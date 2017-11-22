@@ -74,7 +74,6 @@ public class Exercise0
     try {
 		InputStreamReader reader = new InputStreamReader(new FileInputStream("songs.txt"));
 		Scanner scanner = new Scanner(reader);
-		database[0].artist = "";
 		for (i = 0; scanner.hasNext() == true; i++) {
 			database[i].artist = scanner.nextLine(); //Null Pointer Exception?!
 			database[i].cd = scanner.nextLine();
