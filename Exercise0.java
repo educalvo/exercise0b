@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Exercise0
 { 
-  private static final int maxNrOfTracks = 5000;
+  private static final int MAX_NR_OF_TRACKS = 5000;
   /**
    * Program main entry point
    * @param args arguments to the program (ignored)
@@ -19,7 +19,7 @@ public class Exercise0
 	  //Length length2=fromString("23:45");
 	  //Length sum=add(length1,length2);
 	  //System.out.println(toString(sum));
-	  Track [] database = new Track[maxNrOfTracks];
+	  Track [] database = new Track[MAX_NR_OF_TRACKS];
 	  int nr = readDatabase(database);
 	  System.out.println(nr + " tracks read");
   }
@@ -70,16 +70,28 @@ public class Exercise0
    */
   static int readDatabase(Track[] database)
   {
+	int i = 0;
     try {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("songs.txt")));
-		Scanner scanner = new Scanner();
-		while (reader.hasNext() > 0) {
-			
+		InputStreamReader reader = new InputStreamReader(new FileInputStream("songs.txt"));
+		Scanner scanner = new Scanner(reader);
+		database[0].artist = "";
+		for (i = 0; scanner.hasNext() == true; i++) {
+			database[i].artist = scanner.nextLine(); //Null Pointer Exception?!
+			database[i].cd = scanner.nextLine();
+			database[i].year = scanner.nextInt();
+			scanner.nextLine();
+			database[i].track = scanner.nextInt();
+			scanner.nextLine();
+			database[i].title = scanner.nextLine();
+			database[i].tags = scanner.nextLine();
+			database[i].time = fromString(scanner.nextLine());
+			database[i].country = scanner.nextLine();
 		}
+		scanner.close();
 	} catch (FileNotFoundException e) {
 		System.out.println("File not found");
 		e.printStackTrace();
 	}
-    return 0;
+    return i;
   }
 }
