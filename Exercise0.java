@@ -15,15 +15,70 @@ public class Exercise0
    */
   public static void main(String [] args)
   {
-	  //Length length1=fromString("12:34");
-	  //Length length2=fromString("23:45");
-	  //Length sum=add(length1,length2);
-	  //System.out.println(toString(sum));
+	  musicDatabase();
+  }
+  private static void musicDatabase() {
+	  Scanner scanner = new Scanner(System.in);
 	  Track [] database = new Track[MAX_NR_OF_TRACKS];
 	  int nr = readDatabase(database);
-	  System.out.println(nr + " tracks read");
+	  System.out.println(nr + " tracks read from songs.txt.");
+	  System.out.println("Enter a command:");
+	  String command = scanner.next();
+	  String input = scanner.next();
+	  switch (command) {
+	  	case "track": //track command
+	  		title(database, input);
+	  	break;
+		case "artist": //artist command
+		break;
+		case "cds": //cds command
+			cds(database, input);
+		break;
+		case "#cds": //#cds command
+		break;
+		case "time": //time command
+		break;
+		case "stop": //stop command
+		break;
+		case "help": //help command
+			help();
+		break;
+		default:
+			System.out.println("Unrecognised command. Type 'help' to see available commands.");
+	  }
   }
-  /**
+  
+  private static void title(Track[] database, String input) {
+	  int i;
+	  int tracksFound = 0;
+	  for (i = 0; i < database.length; i++)
+		  if(input.equals(database[i].title)) {
+			  System.out.println(database[i].artist + ", "
+					  + database[i].cd + ", "
+					  + database[i].year + ", "
+					  + database[i].track + ", "
+					  + database[i].title + ", "
+					  + database[i].time + ", "
+					  + database[i].tags + ", "
+					  + database[i].country + ".");
+			  tracksFound += 1;
+			  }
+	  System.out.println(tracksFound + " tracks found.");
+  }
+  private static void help() {
+	  System.out.println("track *title* - Finds every track of which the track *title* matches track. Displays the artist, CD title, year of\n" + 
+	  		"recording, track number, track title, track length, tags, and country. At the end, shows the\n" + 
+	  		"number of found tracks.");
+	  System.out.println("artist *name* - Finds every artist whose *name* matches artist. Displays the artist. Each artist is displayed at\n" + 
+	  		"most once. At the end, shows the number of found artists.");
+	  System.out.println("cds *name* - Finds every CD title of artists of which the artists *name* matches artist. Displays the artist\n" + 
+	  		"name, CD title, and year of recording. Each CD title is displayed at most once. Terminates\n" + 
+	  		"the output with the number of found CD titles.");
+	  System.out.println("#cds - Display the total number of CDs");
+	  System.out.println("time - Display the total running time of all tracks in “mm:ss” format");
+	  System.out.println("stop - Terminates the program");
+  }
+/**
    * Calculate the sum of the specified length arguments
    * @param a
    * @param b
@@ -70,21 +125,23 @@ public class Exercise0
    */
   static int readDatabase(Track[] database)
   {
+	Track newTrack = new Track();
 	int i = 0;
     try {
 		InputStreamReader reader = new InputStreamReader(new FileInputStream("songs.txt"));
 		Scanner scanner = new Scanner(reader);
 		for (i = 0; scanner.hasNext() == true; i++) {
-			database[i].artist = scanner.nextLine(); //Null Pointer Exception?!
-			database[i].cd = scanner.nextLine();
-			database[i].year = scanner.nextInt();
+			newTrack.artist = scanner.nextLine(); //Null Pointer Exception?!
+			newTrack.cd = scanner.nextLine();
+			newTrack.year = scanner.nextInt();
 			scanner.nextLine();
-			database[i].track = scanner.nextInt();
+			newTrack.track = scanner.nextInt();
 			scanner.nextLine();
-			database[i].title = scanner.nextLine();
-			database[i].tags = scanner.nextLine();
-			database[i].time = fromString(scanner.nextLine());
-			database[i].country = scanner.nextLine();
+			newTrack.title = scanner.nextLine();
+			newTrack.tags = scanner.nextLine();
+			newTrack.time = fromString(scanner.nextLine());
+			newTrack.country = scanner.nextLine();
+			database[i] = newTrack;
 		}
 		scanner.close();
 	} catch (FileNotFoundException e) {
